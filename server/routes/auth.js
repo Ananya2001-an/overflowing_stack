@@ -1,0 +1,18 @@
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user');
+
+// Route to get user based on email and password
+router.post('/', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.find({email, password});
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+
+module.exports = router;
