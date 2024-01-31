@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const User = require('./models/user');
-const Question = require('./models/question');
-const Answer = require('./models/answer');
+const userRoutes = require('./routes/user');
+const questionRoutes = require('./routes/question');
+const answerRoutes = require('./routes/answer');
 
 const app = express();
 app.use(express.json())
@@ -25,16 +25,10 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => { console.log('Connected to DB'); });
 
-// app.post('/user', async (req, res) => {
-//   try {
-//     const newItem = await User.create(req.body);
-//     res.json(newItem);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Server Error' });
-//   }
-// });
-
+// Routes
+app.use('/users', userRoutes);
+app.use('/questions', questionRoutes);
+app.use('/answers', answerRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
