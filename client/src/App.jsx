@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import './App.css'
 import {Routes, Route, useNavigate} from 'react-router-dom'
 import Home from './pages/home'
 import Login from './pages/login'
@@ -35,7 +34,7 @@ function App() {
   return (
     <>
       <Routes>
-          <Route path="/" element={<Home onLogout={handleLogout}/>} />
+          <Route path="*" element={<Home onLogout={handleLogout}/>} />
           <Route path="/login" element={<Login onLogin={handleLogin}/>} />
           <Route path="/signup" element={<Signup/>} />
       </Routes>

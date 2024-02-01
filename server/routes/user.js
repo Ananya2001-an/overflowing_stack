@@ -28,18 +28,15 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    // Check for required fields
-    const { name, email, password } = req.body; // Destructuring assignment syntax
+    const { name, email, password } = req.body;
     if (!name || !email || !password) {
         return res.status(400).json({ message: "Missing required fields" });
     }
     
-    // Create new user object from request body
     const user = new User({
         name, email, password
     });
 
-    // Save the new user in database and send response back with status 201 (Created)
     try {
         const newUser = await user.save();
         res.status(201).json(newUser);

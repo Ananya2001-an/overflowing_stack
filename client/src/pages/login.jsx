@@ -41,8 +41,8 @@ const Login = ({onLogin}) => {
     };
 
     return (
-        <Center h="100vh">
-            <Stack spacing={4} w={320}>
+        <Center h="100vh" w={"100vw"}>
+            <Stack alignItems={"center"} spacing={4} w={320}>
             <Heading>Overflowing Stack</Heading>
             <Stack spacing={3} alignItems={"center"}>
                 <Input 

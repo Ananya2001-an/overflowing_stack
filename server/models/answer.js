@@ -15,11 +15,7 @@ const answerSchema = new mongoose.Schema({
         ref: 'Question',
         required: true
     },
-    upVotes: {
-        type: Number,
-        default: 0
-    },
-    downVotes: {
+    votes: {
         type: Number,
         default: 0
     },
