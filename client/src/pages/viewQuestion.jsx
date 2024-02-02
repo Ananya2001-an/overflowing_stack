@@ -41,6 +41,56 @@ const ViewQuestion = () => {
         getAnswers();
     }, [])
 
+    const upVote = async(obj, type) => {
+        try{
+            const response = await axios.put("http://localhost:5000" + `/${type}/` + obj._id, {upVotes: user._id});
+            if(response.status == 200){
+                console.log("Upvoted");
+                if(type === "questions")
+                    setQuestion({...question, upVotes: [...question.upVotes, user._id] });
+                else{
+                    setAnswers(prevAnswers => {
+                        return prevAnswers.map(ans => {
+                            if (ans._id === obj._id) {
+                            return { ...ans, upVotes: [...ans.upVotes, user._id]} }
+                            return ans;
+                        });
+                    });
+                }
+                    
+            } else {
+                console.log("Not upvoted");
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const downVote = async(obj, type) => {
+        try{
+            const response = await axios.put("http://localhost:5000" + `/${type}/` + obj._id, {downVotes: user._id});
+            if(response.status == 200){
+                console.log("Downvoted");
+                if(type === "questions")
+                    setQuestion({...question, downVotes: [...question.downVotes, user._id]});
+                else{
+                    setAnswers(prevAnswers => {
+                        return prevAnswers.map(ans => {
+                            if (ans._id === obj._id) {
+                            return { ...ans, downVotes: [...ans.downVotes, user._id] };
+                            }
+                            return ans;
+                        });
+                    });
+                }
+            } else {
+                console.log("Not downvoted");
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     const submitAnswer = async() =>{
         try{
             const body = {
@@ -67,9 +117,9 @@ const ViewQuestion = () => {
             <hr style={{border:"1px solid lightgray", width:"80%", margin:"1rem 0 1rem 0"}}/>
             <div style={{display:"flex", justifyContent:"space-between", width:"80%"}}>
                 <VStack>
-                    <Button background={"transparent"} border={"1px solid black"} borderRadius={"50%"} p={1} _hover={{background:"green", color:"white", border:0}}><FaArrowUp/></Button>
-                    <text style={{fontSize:"2rem"}}><b>{question.votes}</b></text>
-                    <Button background={"transparent"} border={"1px solid black"} borderRadius={"50%"} p={1} _hover={{background:"red", color:"white", border:0}}><FaArrowDown/></Button>
+                    <Button background={"transparent"} border={"1px solid black"} borderRadius={"50%"} p={1} _hover={{background:"green", color:"white", border:0}} onClick={() => upVote(question, "questions")}><FaArrowUp/></Button>
+                    <text style={{fontSize:"2rem"}}><b>{question.upVotes && question.downVotes && question.upVotes.length - question.downVotes.length}</b></text>
+                    <Button background={"transparent"} border={"1px solid black"} borderRadius={"50%"} p={1} _hover={{background:"red", color:"white", border:0}} onClick={() => downVote(question, "questions")}><FaArrowDown/></Button>
                 </VStack>
                 <p style={{width:"100%", paddingLeft:"2rem"}}>{question.content}</p>
             </div>
@@ -90,9 +140,9 @@ const ViewQuestion = () => {
                         <div style={{display:"flex", flexDirection:"column", alignItems:"flex-start", width:"80%", marginTop:"20px"}}>
                             <div style={{display:"flex", justifyContent:"space-between", width:"100%"}}>
                                 <VStack>
-                                    <Button background={"transparent"} border={"1px solid black"} borderRadius={"50%"} p={1} _hover={{background:"green", color:"white", border:0}}><FaArrowUp/></Button>
-                                    <text style={{fontSize:"2rem"}}><b>{ans.votes}</b></text>
-                                    <Button background={"transparent"} border={"1px solid black"} borderRadius={"50%"} p={1} _hover={{background:"red", color:"white", border:0}}><FaArrowDown/></Button>
+                                    <Button background={"transparent"} border={"1px solid black"} borderRadius={"50%"} p={1} _hover={{background:"green", color:"white", border:0}} onClick={() => upVote(ans, "answers")}><FaArrowUp/></Button>
+                                    <text style={{fontSize:"2rem"}}><b>{ans.upVotes && ans.downVotes && ans.upVotes.length - ans.downVotes.length}</b></text>
+                                    <Button background={"transparent"} border={"1px solid black"} borderRadius={"50%"} p={1} _hover={{background:"red", color:"white", border:0}} onClick={() => downVote(ans, "answers")}><FaArrowDown/></Button>
                                 </VStack>
                                 <p style={{width:"100%", paddingLeft:"2rem"}}>{ans.content}</p>
                             </div>

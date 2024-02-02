@@ -33,4 +33,33 @@ router.post("/", async (req, res) => {
     }
 })
 
+// Route to update an answer
+router.put("/:id", async (req, res) => {
+    const answer = await Answer.findById(req.params.id);
+    const updates = {};
+    for (let field of ["content", "upVotes", "downVotes"]) {
+        if (req.body[field]) {
+            if(field === "upVotes")
+                updates[field] = [...answer.upVotes, req.body[field]];
+            else if(field === "downVotes")
+                updates[field] = [...answer.downVotes, req.body[field]];
+            else
+                updates[field] = req.body[field];
+        }
+    }
+
+    // If no valid updates were provided, send back an empty object
+    if (Object.keys(updates).length === 0) {
+        return res.json({});
+    }
+
+    try {
+        const updatedAnswer = await Answer.findByIdAndUpdate(req.params.id, updates, { new: true });
+        res.json(updatedAnswer);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server Error" });
+    }
+})
+
 module.exports = router;

@@ -27,6 +27,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// Route to create a new user
 router.post('/', async (req, res) => {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
@@ -45,5 +46,27 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 });
+
+// Route to update a user
+router.put("/:id", async (req, res) => {
+    const updates = {};
+    for (let field of ["username", "email", "password"]) {
+        if (req.body[field])
+            updates[field] = req.body[field];
+    }
+
+    // If no valid updates were provided, send back an empty object
+    if (Object.keys(updates).length === 0) {
+        return res.json({});
+    }
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, updates, { new: true });
+        res.json(updatedUser);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server Error" });
+    }
+})
 
 module.exports = router;

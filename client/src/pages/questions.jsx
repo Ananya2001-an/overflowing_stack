@@ -56,7 +56,7 @@ const Questions = () => {
                         >
                         <CardHeader>
                             <HStack justifyContent={"space-between"}>
-                            <small><b>{q.votes}</b> votes</small>
+                            <small><b>{q.upVotes.length - q.downVotes.length}</b> votes</small>
                             <small>asked by <b>{q.author.username}</b></small>
                             </HStack>
                         </CardHeader>
@@ -67,7 +67,7 @@ const Questions = () => {
                         {
                             q.tags.map(tag => {
                                 return (
-                                    <Badge p={1} mr={2} size="sm" colorScheme="gray">{tag}</Badge>
+                                    <Badge p={1} mr={2} size="sm" colorScheme="blue">{tag}</Badge>
                                 )
                             })
                         }
