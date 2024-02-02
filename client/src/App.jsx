@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import {Routes, Route, useNavigate} from 'react-router-dom'
+import {Routes, Route, useNavigate, useLocation} from 'react-router-dom'
 import Home from './pages/home'
 import Login from './pages/login'
 import Signup from './pages/signup'
@@ -7,6 +7,7 @@ import Signup from './pages/signup'
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
     const userData = localStorage.getItem('userData');
     if (userData) {
@@ -17,7 +18,7 @@ function App() {
   useEffect(() => {
     if(isLoggedIn) 
       navigate("/")
-    else 
+    else if(location.pathname !== "/signup")
       navigate("/login")
   }, [isLoggedIn])
 

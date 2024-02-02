@@ -1,12 +1,14 @@
-import { Stack, Input, Button, Heading, InputGroup, InputRightElement, Center, Text } from "@chakra-ui/react";
+import { Stack, Input, Button, Heading, InputGroup, InputRightElement, Center, Text, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import axios from "axios";
+import { FaStackOverflow } from "react-icons/fa"
 
 const Login = ({onLogin}) => {
     const [show, setShow] = React.useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isValid, setIsValid] = useState(false);
+    const toast = useToast();
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -14,7 +16,6 @@ const Login = ({onLogin}) => {
     };
 
     const validateEmail = (email) => {
-        // Regular expression for email validation
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     };
@@ -25,15 +26,25 @@ const Login = ({onLogin}) => {
                 email: email,
                 password: password
             });
-            // Check if login was successful
             if (response.status == 200) {
-                // Perform actions for successful login
-                console.log('Login successful!');
                 const userData = response.data;
                 onLogin(userData);
+                toast({
+                    title: 'Login successful!',
+                    status: 'success',
+                    duration: 2000,
+                    position:'top-right',
+                    isClosable: true,
+                });
             } else {
-                // Handle login failure
                 console.log('Login failed:', response.data.message);
+                toast({
+                    title: 'Login failed! Check input.',
+                    status: 'error',
+                    duration: 2000,
+                    position:'top-right',
+                    isClosable: true,
+                });
             }
         } catch (error) {
             console.error('Error:', error);
@@ -42,8 +53,8 @@ const Login = ({onLogin}) => {
 
     return (
         <Center h="100vh" w={"100vw"}>
-            <Stack alignItems={"center"} spacing={4} w={320}>
-            <Heading>Overflowing Stack</Heading>
+            <Stack alignItems={"center"} spacing={4} minW={320}>
+            <Heading display={"flex"} alignItems={"center"}><span>Overflowing Stack</span><FaStackOverflow style={{marginLeft:"1rem"}}/></Heading>
             <Stack spacing={3} alignItems={"center"}>
                 <Input 
                     placeholder='Enter email' 

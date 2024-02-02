@@ -1,4 +1,4 @@
-import { Button, Container, Heading, InputGroup, Input, VStack, Textarea, Text, Badge, InputRightElement, HStack } from "@chakra-ui/react";
+import { Button, Container, useToast, InputGroup, Input, VStack, Textarea, Text, Badge, InputRightElement, HStack } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
@@ -9,8 +9,8 @@ const AskQuestion = () => {
     const [description, setDescription] = useState("");
     const [tagName, setTagName] = useState('');
     const user = JSON.parse(localStorage.getItem('userData'))[0]._id;
-    console.log(user);
     const navigate = useNavigate();
+    const toast = useToast();
 
     const handleSubmit = async() => {
         const body = {
@@ -23,6 +23,13 @@ const AskQuestion = () => {
             const response = await axios.post("http://localhost:5000" + "/questions", body);
             if(response.status == 201){
                 console.log("Question added successfully");
+                toast({
+                    title: 'Question posted successfully!',
+                    status: 'success',
+                    duration: 2000,
+                    position:'top-right',
+                    isClosable: true,
+                })
                 navigate("*");
             } else {
                 console.log("Question not added");
@@ -50,7 +57,7 @@ const AskQuestion = () => {
                 <HStack alignSelf={"self-start"} mb={20}>
                 {
                     tags.map((tag, index) => (
-                        <Badge key={index} size={"xs"}>{tag}</Badge>
+                        <Badge p={1} colorScheme="purple" key={index} size={"xs"}>{tag}</Badge>
                     ))
                 }
                 </HStack>

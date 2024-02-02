@@ -1,11 +1,12 @@
-import { Button, VStack, Heading } from '@chakra-ui/react';
+import { Button, VStack, Heading, HStack } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaStackOverflow } from "react-icons/fa"
 
 const Sidebar = ({onLogout}) => {
   return (
-    <VStack spacing={4} h={"100vh"} alignItems="flex-start" borderRight="1px solid #ccc" p={10}>
-      <Heading mb={10}>Overflowing <br/>Stack</Heading>
+    <VStack background={"black"} color={"white"} spacing={4} h={"100vh"} alignItems="flex-start" borderRight="1px solid #ccc" p={10}>
+      <Heading mb={10}>Overflowing <br/><HStack><span>Stack</span><FaStackOverflow/></HStack></Heading>
       <Link to="*" p={2} _hover={{ bg: "gray.200", borderRadius: "md" }}>
           Questions
       </Link>

@@ -49,7 +49,8 @@ const Questions = () => {
                         transition="box-shadow 0.2s, border-color 0.2s"
                         _hover={{
                             boxShadow: "xl",
-                            borderColor: "blue.500",
+                            border:"1px solid",
+                            borderColor: "black.500",
                         }}
                         cursor='pointer'
                         onClick={() => navigate("/question/" + q._id)}
@@ -67,7 +68,7 @@ const Questions = () => {
                         {
                             q.tags.map(tag => {
                                 return (
-                                    <Badge p={1} mr={2} size="sm" colorScheme="blue">{tag}</Badge>
+                                    <Badge p={1} mr={2} size="sm" colorScheme="purple">{tag}</Badge>
                                 )
                             })
                         }

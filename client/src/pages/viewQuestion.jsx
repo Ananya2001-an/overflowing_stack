@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Button, HStack, VStack, Badge, Textarea, Text } from "@chakra-ui/react";
+import { Button, HStack, VStack, Badge, Textarea, Text, useToast } from "@chakra-ui/react";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 const ViewQuestion = () => {
@@ -10,6 +10,7 @@ const ViewQuestion = () => {
     const [yourAnswer, setYourAnswer] = useState("");
     const user = JSON.parse(localStorage.getItem("userData"))[0];
     const { id } = useParams();
+    const toast = useToast();
 
     useEffect(() => {
         const getQuestion = async() => {
@@ -97,11 +98,18 @@ const ViewQuestion = () => {
                 content: yourAnswer,
                 author: user,
                 question: id,
-                votes: 0
+                upvotes: [],
+                downVotes: []
             }
             const response = await axios.post("http://localhost:5000" + "/answers", body);
             if(response.status == 201){
-                console.log("Answer posted");
+                toast({
+                    title: 'Answer posted successfully!',
+                    status: 'success',
+                    duration: 2000,
+                    position:'top-right',
+                    isClosable: true,
+                });
                 setAnswers([...answers, body])
             } else {
                 console.log("Answer not posted");
@@ -127,7 +135,7 @@ const ViewQuestion = () => {
                 {
                     question.tags && question.tags.map(tag =>{
                         return (
-                            <Badge p={1} mr={2} size="sm" colorScheme="blue">{tag}</Badge>
+                            <Badge p={1} mr={2} size="sm" colorScheme="purple">{tag}</Badge>
                         )
                     })
                 }
@@ -141,7 +149,7 @@ const ViewQuestion = () => {
                             <div style={{display:"flex", justifyContent:"space-between", width:"100%"}}>
                                 <VStack>
                                     <Button background={"transparent"} border={"1px solid black"} borderRadius={"50%"} p={1} _hover={{background:"green", color:"white", border:0}} onClick={() => upVote(ans, "answers")}><FaArrowUp/></Button>
-                                    <text style={{fontSize:"2rem"}}><b>{ans.upVotes && ans.downVotes && ans.upVotes.length - ans.downVotes.length}</b></text>
+                                    <text style={{fontSize:"2rem"}}><b>{ans.upVotes && ans.downVotes? ans.upVotes.length - ans.downVotes.length:0}</b></text>
                                     <Button background={"transparent"} border={"1px solid black"} borderRadius={"50%"} p={1} _hover={{background:"red", color:"white", border:0}} onClick={() => downVote(ans, "answers")}><FaArrowDown/></Button>
                                 </VStack>
                                 <p style={{width:"100%", paddingLeft:"2rem"}}>{ans.content}</p>
