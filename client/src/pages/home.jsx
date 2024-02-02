@@ -9,9 +9,9 @@ import ViewQuestion from "./viewQuestion";
 
 const Home = ({onLogout}) => {
     return (
-    <HStack minW={"100vw"}>
+    <HStack width={"100vw"}>
         <Sidebar onLogout={onLogout}/>
-        <div className="content" style={{ flex: 1, width: '100%', height:'100vh' }}>
+        <div className="content" style={{ flex: 1, width: '100%', height:"100vh", overflowY:"auto" }}>
             <Routes>
             <Route path="*" element={<Questions />} />
             <Route path="/profile" element={<Profile/>}/>
