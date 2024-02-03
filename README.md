@@ -1,7 +1,14 @@
 ## Overflowing Stack
-> WIP
 
-This is a MERN stack project. I have tried creating a simple clone of stack overflow. After deciding with the design of my database, I started developing the backend with node first. Later, I connected the server to my local MongoDB and started working on the frontend with Vite React template.
+This is a **MERN stack** project. I have tried creating a simple clone of stack overflow. After deciding with the design of my database, I started developing the backend with node first. Later, I connected the server to my local MongoDB and started working on the frontend with Vite React template.
+
+I have also tried using **azure functions** for the first time to understand serverless computing. I have created a simple function that creates a new user in the database. For this I have connected my function to MongoDB Atlas. You can read more about it [here](azure_functions_serverless.md).
+
+### Tech Stack
+- React
+- Node.js
+- MongoDB
+- Azure Functions (Serverless)
 
 ### Database design (using QuickDBD)
 ![Screenshot 2024-02-02 174946](https://github.com/Ananya2001-an/overflowing_stack/assets/55504616/b8e1e64f-28bb-4f03-bb37-4ad46787c85a)
