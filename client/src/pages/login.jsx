@@ -9,6 +9,8 @@ const Login = ({onLogin}) => {
     const [password, setPassword] = useState('');
     const [isValid, setIsValid] = useState(false);
     const toast = useToast();
+    const azureServerlessFunctionLocal = "http://localhost:7071/api";
+    const localServer = "http://localhost:5000";
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -22,7 +24,7 @@ const Login = ({onLogin}) => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post("http://localhost:5000" + "/auth", {
+            const response = await axios.post(localServer + "/auth", {
                 email: email,
                 password: password
             });
@@ -36,17 +38,15 @@ const Login = ({onLogin}) => {
                     position:'top-right',
                     isClosable: true,
                 });
-            } else {
-                console.log('Login failed:', response.data.message);
-                toast({
-                    title: 'Login failed! Check input.',
-                    status: 'error',
-                    duration: 2000,
-                    position:'top-right',
-                    isClosable: true,
-                });
             }
         } catch (error) {
+            toast({
+                title: 'Login failed! Check input.',
+                status: 'error',
+                duration: 2000,
+                position:'top-right',
+                isClosable: true,
+            });
             console.error('Error:', error);
         }
     };

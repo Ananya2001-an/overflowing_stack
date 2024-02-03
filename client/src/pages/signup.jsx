@@ -12,7 +12,9 @@ const Signup = () => {
     const [isValid, setIsValid] = useState(false);
     const navigate = useNavigate();
     const toast = useToast();
-    const azureServerlessFunction = "https://overflowing-stack-serverless.azurewebsites.net/api";
+    const azureServerlessFunction = "https://overflowing-stack.azurewebsites.net/api";
+    const azureServerlessFunctionLocal = "http://localhost:7071/api";
+    const localServer = "http://localhost:5000";
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -24,23 +26,10 @@ const Signup = () => {
         return regex.test(email);
     };
 
-    const submit = async() =>{
-        try{
-            const response = await axios.get(azureServerlessFunction + "/users" + "/ananya");
-            if(response.status === 200){
-                console.log(response);
-            }else{
-                throw new Error("Something went wrong!");
-            }
-        }catch(error){
-            console.log(error);
-        }
-    }
-
     const handleSignup = async() =>{
         try{
-            const response = await axios.post("http://localhost:5000" + "/users", { username, email, password });
-            if(response.status === 201){
+            const response = await axios.post(localServer + "/users", { username, email, password });
+            if(response.status === 201 || response.status === 204){
                 toast({
                     title: 'User created!',
                     status: 'success',
@@ -92,7 +81,6 @@ const Signup = () => {
                     </InputRightElement>
                 </InputGroup>
                 <Button w={"fit-content"} onClick={() => handleSignup()}>Signup</Button>
-                <Button onClick={() => submit()}>submit</Button>
                 <Text>Existing user? <a href="/login">Login</a></Text>
             </Stack>
             </Stack>

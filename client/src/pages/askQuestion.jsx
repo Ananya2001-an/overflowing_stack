@@ -11,6 +11,8 @@ const AskQuestion = () => {
     const user = JSON.parse(localStorage.getItem('userData'))[0]._id;
     const navigate = useNavigate();
     const toast = useToast();
+    const azureServerlessFunctionLocal = "http://localhost:7071/api";
+    const localServer = "http://localhost:5000";
 
     const handleSubmit = async() => {
         const body = {
@@ -20,8 +22,8 @@ const AskQuestion = () => {
             "tags": tags
         }
         try{
-            const response = await axios.post("http://localhost:5000" + "/questions", body);
-            if(response.status == 201){
+            const response = await axios.post(localServer + "/questions", body);
+            if(response.status == 201 || response.status === 204){
                 console.log("Question added successfully");
                 toast({
                     title: 'Question posted successfully!',
