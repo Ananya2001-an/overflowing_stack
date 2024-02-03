@@ -12,6 +12,7 @@ const Signup = () => {
     const [isValid, setIsValid] = useState(false);
     const navigate = useNavigate();
     const toast = useToast();
+    const azureServerlessFunction = "https://overflowing-stack-serverless.azurewebsites.net/api";
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -23,6 +24,18 @@ const Signup = () => {
         return regex.test(email);
     };
 
+    const submit = async() =>{
+        try{
+            const response = await axios.get(azureServerlessFunction + "/users" + "/ananya");
+            if(response.status === 200){
+                console.log(response);
+            }else{
+                throw new Error("Something went wrong!");
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
 
     const handleSignup = async() =>{
         try{
@@ -79,6 +92,7 @@ const Signup = () => {
                     </InputRightElement>
                 </InputGroup>
                 <Button w={"fit-content"} onClick={() => handleSignup()}>Signup</Button>
+                <Button onClick={() => submit()}>submit</Button>
                 <Text>Existing user? <a href="/login">Login</a></Text>
             </Stack>
             </Stack>

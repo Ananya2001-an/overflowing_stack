@@ -5,6 +5,7 @@ const userRoutes = require('./routes/user');
 const questionRoutes = require('./routes/question');
 const answerRoutes = require('./routes/answer');
 const authRoutes = require('./routes/auth');
+require("dotenv").config();
 
 const app = express();
 app.use(express.json())
@@ -15,9 +16,11 @@ app.use(
   })
 );
 const PORT = process.env.PORT || 5000;
+const localMongoDB = 'mongodb://localhost:27017/overflowing_stack';
+const cloudMongoDB = process.env.MONGODB_URL;
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/overflowing_stack', {
+mongoose.connect(cloudMongoDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
